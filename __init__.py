@@ -26,17 +26,18 @@ class SEQUENCER_OT_match_frame(bpy.types.Operator):
         current_frame = current_scene.frame_current
         active = current_scene.sequence_editor.active_strip
         find_frame = current_frame - active.frame_final_start
-
+        print(find_frame)
+        type = active.type
+  
+            
         for sce in bpy.data.scenes:
             seq = sce.sequence_editor
 
             for strip in seq.sequences_all:
-                if current_scene.name != sce.name and active.name == strip.name:
+                if current_scene.name != sce.name and type == strip.type and (active.name == strip.name or active.name[:-4].find(strip.name) >= 0):
                     win = bpy.context.window_manager.windows[0]
                     win.scene = bpy.data.scenes[sce.name]
-                    bpy.context.scene.frame_current = (
-                        find_frame + strip.frame_final_start
-                    )
+                    bpy.context.scene.frame_current = (find_frame + strip.frame_final_start)
                     bpy.ops.sequencer.view_frame()
                     break
         return {"FINISHED"}
