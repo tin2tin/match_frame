@@ -38,19 +38,31 @@ class SEQUENCER_OT_match_frame(bpy.types.Operator):
             seq = sce.sequence_editor
 
             for strip in seq.sequences_all:
-                if find_frame and current_scene.name != sce.name and active.type == strip.type and (active.name == strip.name or active.name[:-4].find(strip.name)):
-                    frame_current = (find_frame + strip.frame_start)
-                    frame_start = (strip.frame_start + strip.frame_offset_start)
-                    frame_end = (strip.frame_start + strip.frame_offset_start + strip.frame_final_duration)
+                if strip.type == active.type == "MOVIE":
+                    strip_file_path = strip.filepath
+                    active_file_path = active.filepath
+#                elif strip.type == active.type == "SOUND":
+#                    strip_file_path = strip.filepath
+#                    active_file_path = active.filepath
 
-                    if frame_current >= frame_start and frame_current <= frame_end:
-                        win = bpy.context.window_manager.windows[0]
-                        win.scene = bpy.data.scenes[sce.name]
-                        bpy.context.scene.frame_current = frame_current
-                        bpy.context.scene.sequence_editor.active_strip = strip
-                        bpy.ops.sequencer.view_frame()
-                        break
-                        break
+                    if find_frame and current_scene.name != sce.name and active.type == strip.type and active_file_path == strip_file_path:# or strip.name[:-4].find(active.name)):
+                        frame_current = (find_frame + strip.frame_start)
+                        frame_start = (strip.frame_start + strip.frame_offset_start)
+                        frame_end = (strip.frame_start + strip.frame_offset_start + strip.frame_final_duration)
+                        print("frame_current "+str(frame_current))
+                        print("frame_start "+str(frame_start))
+                        print("frame_end "+str(frame_end))
+                        if frame_current >= frame_start and frame_current <= frame_end:
+                            win = bpy.context.window_manager.windows[0]
+                            win.scene = bpy.data.scenes[sce.name]
+                            bpy.context.scene.frame_current = frame_current
+                            bpy.ops.sequencer.select_all(action='DESELECT')
+                            strip.select = True
+                            bpy.context.scene.sequence_editor.active_strip = strip
+                            bpy.ops.sequencer.view_all()
+                            bpy.ops.sequencer.view_frame()
+                            break
+                            break
         return {"FINISHED"}
 
 
