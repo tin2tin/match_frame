@@ -60,7 +60,7 @@ class SEQUENCER_OT_match_frame(bpy.types.Operator):
                             strip.select = True
                             bpy.context.scene.sequence_editor.active_strip = strip
                             bpy.ops.sequencer.view_all()
-                            bpy.ops.sequencer.view_frame()
+                            #bpy.ops.sequencer.view_frame()
                             break
                             break
         return {"FINISHED"}
