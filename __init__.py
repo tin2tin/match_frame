@@ -41,9 +41,9 @@ class SEQUENCER_OT_match_frame(bpy.types.Operator):
                 if strip.type == active.type == "MOVIE":
                     strip_file_path = strip.filepath
                     active_file_path = active.filepath
-#                elif strip.type == active.type == "SOUND":
-#                    strip_file_path = strip.filepath
-#                    active_file_path = active.filepath
+                elif strip.type == active.type == "SOUND":
+                    strip_file_path = strip.sound.filepath
+                    active_file_path = active.sound.filepath
 
                     if find_frame and current_scene.name != sce.name and active.type == strip.type and active_file_path == strip_file_path:# or strip.name[:-4].find(active.name)):
                         frame_current = (find_frame + strip.frame_start)
@@ -83,3 +83,4 @@ def unregister():
 
 if __name__ == "__main__":
     register()
+ 
