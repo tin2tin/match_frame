@@ -11,8 +11,6 @@ bl_info = {
     "category": "Sequencer",
 }
 
-import bpy
-
 
 class SEQUENCER_OT_match_frame(bpy.types.Operator):
     """Jump to a matching frame in a different scene."""
