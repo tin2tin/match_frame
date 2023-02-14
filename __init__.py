@@ -28,7 +28,7 @@ class SEQUENCER_OT_match_frame(bpy.types.Operator):
             return {"CANCELLED"}
         frame_start = active.frame_start + active.frame_offset_start
         frame_end = (
-            active.frame_start + active.frame_offset_start + active.frame_final_duration
+            int(active.frame_start + active.frame_offset_start + active.frame_final_duration)
         )
 
         if current_frame >= frame_start and current_frame <= frame_end:
